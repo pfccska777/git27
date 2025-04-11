@@ -30,7 +30,7 @@
 
 ---
 ### Решение 1
-![screen1](https://github.com/pfccska777/git27/blob/ЧтотакоеDevOpsCI/CD/)    
+![screen1](https://github.com/pfccska777/git27/blob/ЧтотакоеDevOpsCI/CD/photo/1-1.jpg)    
 
 ### Задание 2
 
