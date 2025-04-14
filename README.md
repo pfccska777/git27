@@ -31,7 +31,7 @@
 ---
 ### Решение 1
 ![screen1](https://github.com/pfccska777/git27/blob/ЧтотакоеDevOpsCI/CD/photo/1-1.jpg)    
-
+![screen1-1](https://github.com/pfccska777/git27/blob/ЧтотакоеDevOpsCI/CD/photo/1.jpg)
 ### Задание 2
 
 **Что нужно сделать:**
@@ -56,3 +56,4 @@
 В качестве ответа пришлите скриншоты с настройками проекта и результатами выполнения сборки.
 
 ### Решение 3
+
