@@ -43,7 +43,7 @@
 
 ---
 ### Решение 2
-
+![screen2](https://github.com/pfccska777/git27/blob/ЧтотакоеDevOpsCI/CD/photo/2.jpg)
 ### Задание 3
 
 **Что нужно сделать:**
