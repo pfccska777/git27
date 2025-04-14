@@ -57,3 +57,5 @@
 
 ### Решение 3
 ![screen3](https://github.com/pfccska777/git27/blob/ЧтотакоеDevOpsCI/CD/photo/3.jpg)
+![screen3-3](https://github.com/pfccska777/git27/blob/ЧтотакоеDevOpsCI/CD/photo/3-3.jpg)
+
