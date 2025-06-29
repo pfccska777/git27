@@ -76,3 +76,8 @@
 
 
 ### Решение 1
+![scrin1](https://github.com/pfccska777/git27/blob/СистемамониторингаZabbix/photo/задание%201.1.jpg)
+![scrin2](https://github.com/pfccska777/git27/blob/СистемамониторингаZabbix/photo/задание%201.jpg)
+
+### Решение 2
+![scrin1](https://github.com/pfccska777/git27/blob/СистемамониторингаZabbix/photo/задание%202.jpg)
