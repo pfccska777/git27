@@ -93,12 +93,12 @@
 3. Задание оформлено в шаблоне с решением и опубликовано на GitHub
 
 ### Решение 1
-![scrin1]()
+![scrin1](https://github.com/pfccska777/git27/blob/Zabbix2/photo/Задание%201.jpg)
 
 ### Решение 2-3
-![scrin1]()
+![scrin1](https://github.com/pfccska777/git27/blob/Zabbix2/photo/2025-07-05_22-34-17.png)
 
 ### Решение 4
-![scrin1]()
+![scrin1](https://github.com/pfccska777/git27/blob/Zabbix2/photo/2025-07-05_22-29-38.png)
 
 
