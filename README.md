@@ -36,7 +36,7 @@
 
 ### Решение 2.
 
-[Ответ 2](https://github.com/pfccska777/git27/blob/main/photo/%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%202.jpg)
+![Ответ 2](https://github.com/pfccska777/git27/blob/main/photo/%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%202.jpg)
 
 
 ### Задание 3. Удаление по TTL в Memcached
@@ -48,7 +48,7 @@
 
 ### Решение 3.
 
-[Ответ 3](https://github.com/pfccska777/git27/blob/main/photo/%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%203.png)
+![Ответ 3](https://github.com/pfccska777/git27/blob/main/photo/%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%203.png)
 
 
 ### Задание 4. Запись данных в Redis
@@ -59,4 +59,4 @@
 
 ### Решение 4.
 
-[Ответ 4](https://github.com/pfccska777/git27/blob/main/photo/%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%204.png)
+![Ответ 4](https://github.com/pfccska777/git27/blob/main/photo/%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%204.png)
