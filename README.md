@@ -6,7 +6,7 @@
 
 
 ### Решение 1.
-![https://github.com/pfccska777/git27/blob/main/Задание%201.%20ELK.png]
+![screen1](https://github.com/pfccska777/git27/blob/main/Задание%201.%20ELK.png)
 ---
 
 ### Задание 2. Kibana
@@ -14,7 +14,7 @@
 Установите и запустите Kibana.
 
 ### Решение 2.
-![https://github.com/pfccska777/git27/blob/main/Задание%202.%20ELK.png]
+![screen2](https://github.com/pfccska777/git27/blob/main/Задание%202.%20ELK.png)
 ---
 
 ### Задание 3. Logstash
@@ -22,7 +22,7 @@
 Установите и запустите Logstash и Nginx. С помощью Logstash отправьте access-лог Nginx в Elasticsearch. 
 
 ### Решение 3.
-![https://github.com/pfccska777/git27/blob/main/Задание%203.%20ELK.png]
+![screen3](https://github.com/pfccska777/git27/blob/main/Задание%203.%20ELK.png)
 ---
 
 ### Задание 4. Filebeat. 
@@ -30,5 +30,5 @@
 Установите и запустите Filebeat. Переключите поставку логов Nginx с Logstash на Filebeat. 
 
 ### Решение 4.
-![https://github.com/pfccska777/git27/blob/main/Задание%204.%20ELK.png]
+![screen4](https://github.com/pfccska777/git27/blob/main/Задание%204.%20ELK.png)
 
