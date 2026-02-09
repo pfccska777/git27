@@ -95,3 +95,4 @@ Hey, Netology
 ![Screenshot](https://github.com/pfccska777/git27/blob/main/photo/Задание%205(6).png)
 ![Screenshot](https://github.com/pfccska777/git27/blob/main/photo/Задание%205(7).png)
 ![Screenshot](https://github.com/pfccska777/git27/blob/main/photo/Задание%205(8).png)
+![Screenshot](https://github.com/pfccska777/git27/blob/main/photo/Задание%205(9).png)
