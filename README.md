@@ -10,7 +10,7 @@
 *В качестве ответа  пришлите снимки экрана домашнего каталога пользователя с исходными и зашифрованными данными.*  
 
 ### Решение 1
-![https://github.com/pfccska777/git27/blob/main/photo/Задание%201.png]
+![screen](https://github.com/pfccska777/git27/blob/main/photo/Задание%201.png)
 
 ### Задание 2
 
@@ -22,12 +22,12 @@
 
 ### Решение 2
 
-![https://github.com/pfccska777/git27/blob/main/photo/Задание%202.png]
+![screen](https://github.com/pfccska777/git27/blob/main/photo/Задание%202.png)
 
 ls .secret/
 sudo umount .secret
 sudo cryptsetup luksClose disk
 ls .secret/
 
-![https://github.com/pfccska777/git27/blob/main/photo/Задание%202%20.1.png]
-![https://github.com/pfccska777/git27/blob/main/photo/Задание%202.2.png]
+![screen](https://github.com/pfccska777/git27/blob/main/photo/Задание%202%20.1.png)
+![screen](https://github.com/pfccska777/git27/blob/main/photo/Задание%202.2.png)
