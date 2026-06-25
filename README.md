@@ -68,3 +68,14 @@
 
 Ссылка на fork репозитория shvirtd-example-python:
 https://github.com/pfccska777/shvirtd-example-python
+
+## Задача 4
+
+Скачайте docker образ ```hashicorp/terraform:latest``` и скопируйте бинарный файл ```/bin/terraform``` на свою локальную машину, используя dive и docker save.
+Предоставьте скриншоты  действий .
+
+# Решение задания 6.
+
+![screeeeeeeeen](https://github.com/pfccska777/git27/blob/main/photo/скрин%201%20задание%206.png)
+![screeeeeen](https://github.com/pfccska777/git27/blob/main/photo/скрин%202%20задание%206.png)
+![screeeeeen](https://github.com/pfccska777/git27/blob/main/photo/скрин%203%20задание%206.png)
