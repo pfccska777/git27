@@ -22,19 +22,7 @@
 
 Листинг кода Dockerfile.python
 
-#  Ваш код здесь #
- WORKDIR /app
- COPY . .
- RUN pip install -r requirements.txt
-
-# Запускаем приложение с помощью uvicorn, делая его доступным по сети
- CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"] 
-
-
-#  Ваш код здесь #
- WORKDIR /app
- COPY . .
- RUN pip install -r requirements.txt
+![screeen](https://github.com/pfccska777/git27/blob/main/photo/листинг%20кода%201.png)
 
 # Запускаем приложение с помощью uvicorn, делая его доступным по сети
  CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"] 
@@ -63,50 +51,7 @@
 
 Листинг кода compose.yaml:
 
-include:
-  - proxy.yaml
-
-services:
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile.python
-    restart: always
-    networks:
-      backend:
-        ipv4_address: 172.20.0.5
-    #ports:
-    #  - 5000:5000
-    environment:
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_USER: ${MYSQL_USER}
-      DB_PASSWORD: ${MYSQL_PASSWORD}
-      DB_NAME: ${MYSQL_DATABASE}      
-    depends_on:
-      - db
-  db:
-    image: mysql:8
-    restart: always
-    networks:
-      backend:
-        ipv4_address: 172.20.0.10
-    #ports:
-    #  - 3306:3306
-    env_file:
-      - .env
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ROOT_HOST: "%"     
-networks:
-  backend:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.20.0.0/24
+![screeeen](https://github.com/pfccska777/git27/blob/main/photo/листинг%20кода.png)
 
 ## Задача 4
 1. Запустите в Yandex Cloud ВМ (вам хватит 2 Гб Ram).
