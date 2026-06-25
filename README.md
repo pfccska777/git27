@@ -22,15 +22,22 @@
 
 Листинг кода Dockerfile.python
 
-FROM python:3.12-slim
-
 #  Ваш код здесь #
-WORKDIR /app
-COPY . .
-RUN pip install -r requirements.txt
+ WORKDIR /app
+ COPY . .
+ RUN pip install -r requirements.txt
 
 # Запускаем приложение с помощью uvicorn, делая его доступным по сети
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"] 
+ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"] 
+
+
+#  Ваш код здесь #
+ WORKDIR /app
+ COPY . .
+ RUN pip install -r requirements.txt
+
+# Запускаем приложение с помощью uvicorn, делая его доступным по сети
+ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"] 
 
 ## Задача 3
 1. Изучите файл "proxy.yaml"
