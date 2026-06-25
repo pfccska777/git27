@@ -24,9 +24,6 @@
 
 ![screeen](https://github.com/pfccska777/git27/blob/main/photo/листинг%20кода%201.png)
 
-# Запускаем приложение с помощью uvicorn, делая его доступным по сети
- CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"] 
-
 ## Задача 3
 1. Изучите файл "proxy.yaml"
 2. Создайте в репозитории с проектом файл ```compose.yaml```. С помощью директивы "include" подключите к нему файл "proxy.yaml".
@@ -64,6 +61,10 @@
 # Решение задания 4.
 
 ![screen4](https://github.com/pfccska777/git27/blob/main/photo/скрин%201%20задание%204.png)
+
+Листинг кода скрипта script-for-yacloud.sh
+
+![creeeeen](https://github.com/pfccska777/git27/blob/main/photo/листинг%20кода%204.png)
 
 Ссылка на fork репозитория shvirtd-example-python:
 https://github.com/pfccska777/shvirtd-example-python
