@@ -31,7 +31,22 @@
 
 # Решение 2.
 
+Рефакторинг сети: Выделил создание VPC и подсети в отдельный локальный модуль ./modules/vpc.
+Разработка модуля:
+Реализовал ресурсы yandex_vpc_network и yandex_vpc_subnet с динамическими именами.
+Настроил входные переменные (env_name, zone, cidr) и выходные данные (network_id, subnet, subnet_id).
+Интеграция:
+Подключил модуль в корневом main.tf и передал в него параметры.
+Закомментировал старые ресурсы, перенаправив связь модулей ВМ на module.vpc_dev.subnet_id.
+Проверка и документация:
+Выполнил цикл fmt $\to$ init $\to$ validate $\to$ apply.
+Успешно протестировал выводы модуля через terraform console.
+Сгенерировал README.md с помощью terraform-docs.
+---
 
+![screen6](https://github.com/pfccska777/git27/blob/main/photo/Screen6.png)
+![screen7](https://github.com/pfccska777/git27/blob/main/photo/Screen7.png)
+![screen8](https://github.com/pfccska777/git27/blob/main/photo/Screen8.png)
 
 ### Задание 3
 1. Выведите список ресурсов в стейте.
@@ -41,5 +56,19 @@
 Приложите список выполненных команд и скриншоты процессы.
 ---
 
+Очистка State: Провел удаление ресурсов из файла состояния (terraform state rm) для модулей vpc и vm (analytics_vm, marketing_vm). В стейте остался только data.template_file.cloudinit.
+Импорт ресурсов: Выполнил обратный импорт существующих в облаке ресурсов в Terraform State, используя актуальные ID из консоли Yandex Cloud:
+Сеть и подсеть модуля vpc.
+Инстансы из модулей analytics_vm и marketing_vm.
+Верификация:
+Проверил список ресурсов через terraform state list.
+Подтвердил корректность связки через terraform plan (изменений не обнаружено, инфраструктура соответствует коду).
+---
+
+![screen9](https://github.com/pfccska777/git27/blob/main/photo/Screen9.png)
+![screen10](https://github.com/pfccska777/git27/blob/main/photo/Screen10.png)
+![screen11](https://github.com/pfccska777/git27/blob/main/photo/Screen11.png)
+![screen12](https://github.com/pfccska777/git27/blob/main/photo/Screen12.png)
+![screen13](https://github.com/pfccska777/git27/blob/main/photo/Screen13.png)
 
 # Решение 3.
