@@ -65,10 +65,11 @@
 Подтвердил корректность связки через terraform plan (изменений не обнаружено, инфраструктура соответствует коду).
 ---
 
+# Решение 3.
+
 ![screen9](https://github.com/pfccska777/git27/blob/main/photo/Screen9.png)
 ![screen10](https://github.com/pfccska777/git27/blob/main/photo/Screen10.png)
 ![screen11](https://github.com/pfccska777/git27/blob/main/photo/Screen11.png)
 ![screen12](https://github.com/pfccska777/git27/blob/main/photo/Screen12.png)
 ![screen13](https://github.com/pfccska777/git27/blob/main/photo/Screen13.png)
 
-# Решение 3.
