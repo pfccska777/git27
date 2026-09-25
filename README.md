@@ -1,109 +1,679 @@
-# Домашнее задание к занятию "13.Системы мониторинга"
+# Домашнее задание к занятию 14 «Средство визуализации Grafana»
 
-1. Вас пригласили настроить мониторинг на проект. На онбординге вам рассказали, что проект представляет из себя 
-платформу для вычислений с выдачей текстовых отчетов, которые сохраняются на диск. Взаимодействие с платформой 
-осуществляется по протоколу http. Также вам отметили, что вычисления загружают ЦПУ. Какой минимальный набор метрик вы
-выведите в мониторинг и почему?
+### Задание 1
 
- Инфраструктурные метрики (Health Check)
-CPU Usage (%): Критично, так как вычисления нагружают процессор. Поможет выявить перегрузку и понять, хватает ли мощностей.
-RAM Usage (%): Чтобы отследить возможные утечки памяти при генерации тяжелых отчетов.
-Disk Usage (% & IOPS): Важно, так как отчеты сохраняются на диск. Нужно следить за свободным местом и скоростью записи, чтобы запись не стала «бутылочным горлышком».
- Прикладные метрики (Application Performance)
-HTTP Request Rate (RPS) & Error Rate (4xx/5xx): Позволит понять интенсивность нагрузки и стабильность сервиса (не «отваливается» ли API).
-Latency (Response Time): Время обработки запроса. Поможет понять, как рост нагрузки или объем вычислений влияют на пользовательский опыт.
-Queue Depth (если есть очередь задач): Если вычисления идут асинхронно, важно видеть размер очереди, чтобы понимать задержку выдачи отчетов.
+1. Используя директорию [help](./help) внутри этого домашнего задания, запустите связку prometheus-grafana.
+1. Зайдите в веб-интерфейс grafana, используя авторизационные данные, указанные в манифесте docker-compose.
+1. Подключите поднятый вами prometheus, как источник данных.
+1. Решение домашнего задания — скриншот веб-интерфейса grafana со списком подключенных Datasource.
 
-2. Менеджер продукта посмотрев на ваши метрики сказал, что ему непонятно что такое RAM/inodes/CPUla. Также он сказал, 
-что хочет понимать, насколько мы выполняем свои обязанности перед клиентами и какое качество обслуживания. Что вы 
-можете ему предложить?
+![screen1](https://github.com/pfccska777/git27/blob/main/photo/Скрин1.png)
 
- Доступность (Availability)
-Что это: Процент успешных запросов от общего числа попыток.
-Зачем: Отвечает на вопрос: «Может ли клиент вообще воспользоваться сервисом?». Вместо ошибок 5xx мы говорим: «Сервис доступен 99.9% времени».
- Скорость выполнения (Latency/Throughput)
-Что это: Среднее и медианное время от момента запроса до получения готового отчета.
-Зачем: Отвечает на вопрос: «Насколько быстро клиент получает результат?». Это напрямую связано с удовлетворенностью (если отчет готовится 10 минут вместо 1 — это проблема).
- Успешность выполнения задач (Success Rate)
-Что это: Доля успешно завершенных вычислений относительно всех запущенных задач.
-Зачем: Отвечает на вопрос: «Выполняем ли мы обещания?». Если CPU перегружен и задачи падают с ошибкой, клиент не получит отчет, даже если сам HTTP-запрос прошел успешно.
-Итог для менеджера: Вместо графиков нагрузки на железо я покажу ему Dashboard качества сервиса:
-«Работает ли сервис?» (Availability)
-«Быстро ли он работает?» (Latency)
-«Выдает ли он результат?» (Success Rate)
 
-3. Вашей DevOps команде в этом году не выделили финансирование на построение системы сбора логов. Разработчики в свою 
-очередь хотят видеть все ошибки, которые выдают их приложения. Какое решение вы можете предпринять в этой ситуации, 
-чтобы разработчики получали ошибки приложения?
+## Задание 2
 
-Раз нет денег — используем Open Source.
-Лучший вариант: Стек PLG (Promtail + Loki + Grafana)
-Почему: Он «легкий». Потребляет мало оперативной памяти и места на дисках (в отличие от тяжелого ELK).
-Как это работает:
-Приложения просто пишут ошибки в консоль (stdout/stderr).
-Promtail (агент) подхватывает эти записи.
-Loki (хранилище) их сохраняет.
-Grafana (интерфейс) показывает их разработчикам.
-Профит: Разработчики смотрят и графики, и логи в одном окне (Grafana), а вы не просите новый сервер.
+Изучите самостоятельно ресурсы:
 
-4. Вы, как опытный SRE, сделали мониторинг, куда вывели отображения выполнения SLA=99% по http кодам ответов. 
-Вычисляете этот параметр по следующей формуле: summ_2xx_requests/summ_all_requests. Данный параметр не поднимается выше 
-70%, но при этом в вашей системе нет кодов ответа 5xx и 4xx. Где у вас ошибка?
+1. [PromQL tutorial for beginners and humans](https://valyala.medium.com/promql-tutorial-for-beginners-9ab455142085).
+1. [Understanding Machine CPU usage](https://www.robustperception.io/understanding-machine-cpu-usage).
+1. [Introduction to PromQL, the Prometheus query language](https://grafana.com/blog/2020/02/04/introduction-to-promql-the-prometheus-query-language/).
 
-Redirects (3xx): Это самая частая причина. Если ваша инфраструктура (Load Balancer, Nginx) активно использует редиректы (301, 302, 307, 308), они попадают в знаменатель (summ_all_requests), но не попадают в числитель (summ_2xx_requests). В итоге SLA падает, хотя технически запросы проходят штатно.
-Informational (1xx): Редко, но если в метриках фиксируются промежуточные ответы (например, 101 Switching Protocols для WebSocket), они также «размывают» показатель.
-Проблема в определении «всех запросов»: Если формула берет данные из логов приложения, а часть запросов отсекается на уровне Firewall или Cloudflare, они могут не попасть в статистику вовсе, либо попадать в знаменатель некорректно.
-Как это исправить 
-Чтобы мониторинг отражал реальность, нужно изменить подход:
-Правильная формула SLA: SLA должен считаться как отношение успешных (или ожидаемых) запросов к общему количеству обработанных. Если редиректы — это часть нормального бизнес-процесса, их нужно либо включить в числитель, либо исключить из знаменателя. Правильнее будет считать так: SLA = (summ_2xx + summ_3xx) / summ_all_requests.
-Использование Error Budget: Вместо того чтобы смотреть только на 2xx, введите метрику Error Rate, которая явно включает в себя всё, что не является успехом: Error Rate = (summ_4xx + summ_5xx) / summ_all_requests. Если Error Rate равен 0, а SLA составляет 70%, вы мгновенно поймете, что проблема в «серой зоне» (коды 3xx).
-Визуализация распределения: Добавьте на дашборд график распределения по кодам ответов (например, sum by (status_code)). Вы сразу увидите огромный столбец с кодом 301 или 302, который и «съедает» ваш SLA.
+Создайте Dashboard и в ней создайте Panels:
 
-5. Опишите основные плюсы и минусы pull и push систем мониторинга.
+- утилизация CPU для nodeexporter (в процентах, 100-idle);
+- CPULA 1/5/15;
+- количество свободной оперативной памяти;
+- количество места на файловой системе.
 
-Pull-модель (Сервер забирает данные)
-Плюсы:
-Контроль нагрузки: Сервер сам управляет частотой сбора, не допуская перегрузки.
-Liveness-мониторинг: Если сервер не может достучаться до цели, он сразу фиксирует, что сервис недоступен.
-Простота отладки: Метрики можно проверить обычным curl.
-Минусы:
-Сложность сети: Трудно собирать данные с объектов за NAT или межсетевыми экранами.
-Service Discovery: Нужно постоянно обновлять список адресов, чтобы сервер знал, кого опрашивать.
-Push-модель (Агенты отправляют данные)
-Плюсы:
-Проходимость через NAT: Агенты сами инициируют исходящие соединения, что упрощает работу в сложных сетях.
-Масштабируемость: Новые узлы просто начинают слать данные, не требуя настройки со стороны сервера.
-Идеально для эфемерных задач: Подходит для Serverless и короткоживущих контейнеров.
-Минусы:
-Риск перегрузки: Массовая отправка данных («шторм») может обрушить сервер мониторинга.
-Сложность детекции сбоев: Трудно отличить «сервис упал» от «сервис просто перестал слать метрики».
+Для решения этого задания приведите promql-запросы для выдачи этих метрик, а также скриншот получившейся Dashboard.
 
-6. Какие из ниже перечисленных систем относятся к push модели, а какие к pull? А может есть гибридные?
+![screen2](https://github.com/pfccska777/git27/blob/main/photo/Скрин2.png)
 
-    - Prometheus 
-    - TICK
-    - Zabbix
-    - VictoriaMetrics
-    - Nagios
 
-Pull-модель
-Prometheus — классический представитель. Сервер активно опрашивает (scrape) эндпоинты целей.
-VictoriaMetrics — по умолчанию работает как Pull-система (совместима с Prometheus), но имеет механизмы приема данных.
-Nagios — традиционная система, которая сама опрашивает хосты и сервисы с помощью плагинов.
-Push-модель
-TICK Stack (Telegraf, InfluxDB, Chronograf, Kapacitor) — основа здесь Telegraf. Это агент, который собирает данные и отправляет (push) их в базу InfluxDB.
-Гибридные системы
-VictoriaMetrics — официально считается гибридом. Несмотря на Pull-корни, она имеет мощный компонент vmagent, который может собирать данные через Push (например, через OpenTelemetry или Influx Line Protocol) и пересылать их дальше.
-Zabbix — считается гибридной системой.
-Pull: Основной механизм — сервер опрашивает агентов (Zabbix Agent) или выполняет проверки.
-Push: Поддерживает «активные агенты» (Zabbix Agent Active), когда агент сам инициирует соединение с сервером и отправляет данные. Это позволяет обходить проблемы с NAT и файрволами.
-Итог:
-Pull: Prometheus, Nagios.
-Push: TICK (Telegraf).
-Гибриды: Zabbix, VictoriaMetrics.
+## Задание 3
 
-7.![screen1](https://github.com/pfccska777/git27/blob/main/photo/скрин1.png)
+1. Создайте для каждой Dashboard подходящее правило alert — можно обратиться к первой лекции в блоке «Мониторинг».
+1. В качестве решения задания приведите скриншот вашей итоговой Dashboard.
 
-8.![screen2](https://github.com/pfccska777/git27/blob/main/photo/скрин2.png)
+![screen3](https://github.com/pfccska777/git27/blob/main/photo/Скрин%203.png)
+![screen4](https://github.com/pfccska777/git27/blob/main/photo/Скрин%203.3.png)
 
-9.![screen3](https://github.com/pfccska777/git27/blob/main/photo/скрин3.png)
+
+## Задание 4
+
+1. Сохраните ваш Dashboard.Для этого перейдите в настройки Dashboard, выберите в боковом меню «JSON MODEL». Далее скопируйте отображаемое json-содержимое в отдельный файл и сохраните его.
+1. В качестве решения задания приведите листинг этого файла.
+
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "gnetId": null,
+    "graphTooltip": 0,
+    "id": 1,
+    "links": [],
+    "panels": [
+      {
+        "alert": {
+          "alertRuleTags": {},
+          "conditions": [
+            {
+              "evaluator": {
+                "params": [
+                  20
+                ],
+                "type": "gt"
+              },
+              "operator": {
+                "type": "and"
+              },
+              "query": {
+                "params": [
+                  "A",
+                  "5m",
+                  "now"
+                ]
+              },
+              "reducer": {
+                "params": [],
+                "type": "avg"
+              },
+              "type": "query"
+            }
+          ],
+          "executionErrorState": "alerting",
+          "for": "5m",
+          "frequency": "1m",
+          "handler": 1,
+          "message": "Cpu alert",
+          "name": "CPU alert",
+          "noDataState": "no_data",
+          "notifications": [
+            {
+              "uid": "l_UQbLzIz"
+            }
+          ]
+        },
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        },
+        "hiddenSeries": false,
+        "id": 2,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.4.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{job=\"nodeexporter\",mode=\"idle\"}[1m])) * 100)",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [
+          {
+            "colorMode": "critical",
+            "fill": true,
+            "line": true,
+            "op": "gt",
+            "value": 20,
+            "visible": true
+          }
+        ],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "CPU",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "alert": {
+          "alertRuleTags": {},
+          "conditions": [
+            {
+              "evaluator": {
+                "params": [
+                  0.2
+                ],
+                "type": "gt"
+              },
+              "operator": {
+                "type": "and"
+              },
+              "query": {
+                "params": [
+                  "A",
+                  "5m",
+                  "now"
+                ]
+              },
+              "reducer": {
+                "params": [],
+                "type": "avg"
+              },
+              "type": "query"
+            }
+          ],
+          "executionErrorState": "alerting",
+          "for": "5m",
+          "frequency": "1m",
+          "handler": 1,
+          "message": "LA Alert",
+          "name": "CPU_LA alert",
+          "noDataState": "no_data",
+          "notifications": [
+            {
+              "uid": "l_UQbLzIz"
+            }
+          ]
+        },
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        },
+        "hiddenSeries": false,
+        "id": 4,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.4.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "node_load1{job=\"nodeexporter\"}",
+            "interval": "",
+            "legendFormat": "",
+            "refId": "A"
+          },
+          {
+            "expr": "node_load5{job=\"nodeexporter\"}",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "",
+            "refId": "B"
+          },
+          {
+            "expr": "node_load15{job=\"nodeexporter\"}",
+            "hide": false,
+            "interval": "",
+            "legendFormat": "",
+            "refId": "C"
+          }
+        ],
+        "thresholds": [
+          {
+            "colorMode": "critical",
+            "fill": true,
+            "line": true,
+            "op": "gt",
+            "value": 0.2,
+            "visible": true
+          }
+        ],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "CPU_LA",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "alert": {
+          "alertRuleTags": {},
+          "conditions": [
+            {
+              "evaluator": {
+                "params": [
+                  9
+                ],
+                "type": "gt"
+              },
+              "operator": {
+                "type": "and"
+              },
+              "query": {
+                "params": [
+                  "A",
+                  "5m",
+                  "now"
+                ]
+              },
+              "reducer": {
+                "params": [],
+                "type": "avg"
+              },
+              "type": "query"
+            }
+          ],
+          "executionErrorState": "alerting",
+          "for": "5m",
+          "frequency": "1m",
+          "handler": 1,
+          "message": "Memory alert",
+          "name": "Memory free alert",
+          "noDataState": "no_data",
+          "notifications": [
+            {
+              "uid": "l_UQbLzIz"
+            }
+          ]
+        },
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 9
+        },
+        "hiddenSeries": false,
+        "id": 6,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.4.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "100 * (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [
+          {
+            "colorMode": "critical",
+            "fill": true,
+            "line": true,
+            "op": "gt",
+            "value": 9,
+            "visible": true
+          }
+        ],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "Memory free",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "$$hashKey": "object:788",
+            "format": "bytes",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": "0",
+            "show": true
+          },
+          {
+            "$$hashKey": "object:789",
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "alert": {
+          "alertRuleTags": {},
+          "conditions": [
+            {
+              "evaluator": {
+                "params": [
+                  11662011173
+                ],
+                "type": "gt"
+              },
+              "operator": {
+                "type": "and"
+              },
+              "query": {
+                "params": [
+                  "A",
+                  "5m",
+                  "now"
+                ]
+              },
+              "reducer": {
+                "params": [],
+                "type": "avg"
+              },
+              "type": "query"
+            }
+          ],
+          "executionErrorState": "alerting",
+          "for": "5m",
+          "frequency": "1m",
+          "handler": 1,
+          "message": "Disk alert",
+          "name": "Disk Free alert",
+          "noDataState": "no_data",
+          "notifications": [
+            {
+              "uid": "l_UQbLzIz"
+            }
+          ]
+        },
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": null,
+        "fieldConfig": {
+          "defaults": {
+            "custom": {}
+          },
+          "overrides": []
+        },
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 9
+        },
+        "hiddenSeries": false,
+        "id": 8,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "7.4.0",
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "node_filesystem_size_bytes{device=\"/dev/vda2\", fstype=\"xfs\", instance=\"nodeexporter:9100\", job=\"nodeexporter\", mountpoint=\"/\"} - node_filesystem_avail_bytes{device=\"/dev/vda2\", fstype=\"xfs\", instance=\"nodeexporter:9100\", job=\"nodeexporter\", mountpoint=\"/\"}",
+            "interval": "",
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [
+          {
+            "colorMode": "critical",
+            "fill": true,
+            "line": true,
+            "op": "gt",
+            "value": 11662011173,
+            "visible": true
+          }
+        ],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "Disk Free",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "$$hashKey": "object:845",
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": "0",
+            "show": true
+          },
+          {
+            "$$hashKey": "object:846",
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      }
+    ],
+    "schemaVersion": 27,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "Netology",
+    "uid": "D6wutakSk",
+    "version": 6
+  }
