@@ -1,42 +1,31 @@
-# Домашнее задание к занятию «Запуск приложений в K8S»
+# Домашнее задание к занятию «Настройка приложений и управление доступом в Kubernetes»
 
-![screen](https://github.com/pfccska777/git27/blob/main/photo/начало%201.png)
-![screen1](https://github.com/pfccska777/git27/blob/main/photo/начало%202.png)
+## **Задание 1: Работа с ConfigMaps**
+### **Задача**
+Развернуть приложение (nginx + multitool), решить проблему конфигурации через ConfigMap и подключить веб-страницу.
 
-### Задание 1. Создать Deployment и обеспечить доступ к репликам приложения из другого Pod
+![screen1](https://github.com/pfccska777/git27/blob/main/photo/Манифест%201.png)
+![screen2](https://github.com/pfccska777/git27/blob/main/photo/Манифест%201.1.png)
+![screen3](https://github.com/pfccska777/git27/blob/main/photo/1%20часть%20задания%201.png)
+![screen4](https://github.com/pfccska777/git27/blob/main/photo/2%20часть%20задания%201.png)
 
-1. Создать Deployment приложения, состоящего из двух контейнеров — nginx и multitool. Решить возникшую ошибку.
-2. После запуска увеличить количество реплик работающего приложения до 2.
-3. Продемонстрировать количество подов до и после масштабирования.
-4. Создать Service, который обеспечит доступ до реплик приложений из п.1.
-5. Создать отдельный Pod с приложением multitool и убедиться с помощью `curl`, что из пода есть доступ до приложений из п.1.
 
-### Решение 1.
+## **Задание 2: Настройка HTTPS с Secrets**  
+### **Задача**  
+Развернуть приложение с доступом по HTTPS, используя самоподписанный сертификат.
 
-![screen2](https://github.com/pfccska777/git27/blob/main/photo/Скрин%201%20задания.png)
-![screen3](https://github.com/pfccska777/git27/blob/main/photo/Дополнение%20задания%201.png)
+![screen5](https://github.com/pfccska777/git27/blob/main/photo/Манифест%20задания%202.png)
+![screen6](https://github.com/pfccska777/git27/blob/main/photo/Манифест%20задания%202.1.png)
+![screen7](https://github.com/pfccska777/git27/blob/main/photo/Манифест%20задания%202.2.png)
+![screen8](https://github.com/pfccska777/git27/blob/main/photo/Задание%202%20часть%201.png)
+![screen9](https://github.com/pfccska777/git27/blob/main/photo/Задание%202%20часть%202.png)
 
-------
 
-### Задание 2. Создать Deployment и обеспечить старт основного контейнера при выполнении условий
+## **Задание 3: Настройка RBAC**  
+### **Задача**  
+Создать пользователя с ограниченными правами (только просмотр логов и описания подов).
 
-1. Создать Deployment приложения nginx и обеспечить старт контейнера только после того, как будет запущен сервис этого приложения.
-2. Убедиться, что nginx не стартует. В качестве Init-контейнера взять busybox.
-3. Создать и запустить Service. Убедиться, что Init запустился.
-4. Продемонстрировать состояние пода до и после запуска сервиса.
-
-### Решение 2.
-
-![screen4](https://github.com/pfccska777/git27/blob/main/photo/Скрин%20задания%202.png)
-![screen5](https://github.com/pfccska777/git27/blob/main/photo/Скрин%20задания%202.2.png)
-![screen6](https://github.com/pfccska777/git27/blob/main/photo/Скрин%20задания%202.2.2.png)
-![screen7](https://github.com/pfccska777/git27/blob/main/photo/Скрин%20задания%202.2.2.2.png)
-
-# Как kubectl работает с API Server и etcd
-
-Когда вы выполняете команду вроде `kubectl apply -f pod.yaml`, происходит следующее:
-
-1.  **Отправка объекта.** `kubectl` отправляет YAML-манифест (описание объекта) на API Server через интерфейс Kubernetes API.
-2.  **Парсинг и создание объекта.** API Server анализирует полученный YAML и преобразует его в структуру данных Kubernetes (объект Pod, Deployment, Service и т.д.).
-3.  **Сохранение в хранилище.** API Server сохраняет созданный объект в etcd — распределённом хранилище ключ-значение, которое служит основным источником данных для всего кластера.
-4.  **Формирование вывода.** При выполнении команды `kubectl get pods -o yaml` API Server считывает данные из etcd и формирует YAML-представление, которое вы видите в терминале.
+![screen10](https://github.com/pfccska777/git27/blob/main/photo/Манифест%20задания%203.png)
+![screen11](https://github.com/pfccska777/git27/blob/main/photo/Манифест%20задания%203.1.png)
+![screen12](https://github.com/pfccska777/git27/blob/main/photo/Задание%203%20часть%201.png)
+![screen13](https://github.com/pfccska777/git27/blob/main/photo/Задание%203%20часть%202.png)
