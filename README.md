@@ -1,31 +1,32 @@
-# Домашнее задание к занятию «Настройка приложений и управление доступом в Kubernetes»
+# Домашнее задание к занятию «Helm»
 
-## **Задание 1: Работа с ConfigMaps**
-### **Задача**
-Развернуть приложение (nginx + multitool), решить проблему конфигурации через ConfigMap и подключить веб-страницу.
+### Задание 1. Подготовить Helm-чарт для приложения
 
-![screen1](https://github.com/pfccska777/git27/blob/main/photo/Манифест%201.png)
-![screen2](https://github.com/pfccska777/git27/blob/main/photo/Манифест%201.1.png)
-![screen3](https://github.com/pfccska777/git27/blob/main/photo/1%20часть%20задания%201.png)
-![screen4](https://github.com/pfccska777/git27/blob/main/photo/2%20часть%20задания%201.png)
+1. Необходимо упаковать приложение в чарт для деплоя в разные окружения. 
+2. Каждый компонент приложения деплоится отдельным deployment’ом или statefulset’ом.
+3. В переменных чарта измените образ приложения для изменения версии.
 
+### Решение 1.
 
-## **Задание 2: Настройка HTTPS с Secrets**  
-### **Задача**  
-Развернуть приложение с доступом по HTTPS, используя самоподписанный сертификат.
-
-![screen5](https://github.com/pfccska777/git27/blob/main/photo/Манифест%20задания%202.png)
-![screen6](https://github.com/pfccska777/git27/blob/main/photo/Манифест%20задания%202.1.png)
-![screen7](https://github.com/pfccska777/git27/blob/main/photo/Манифест%20задания%202.2.png)
-![screen8](https://github.com/pfccska777/git27/blob/main/photo/Задание%202%20часть%201.png)
-![screen9](https://github.com/pfccska777/git27/blob/main/photo/Задание%202%20часть%202.png)
+![screen1](https://github.com/pfccska777/git27/blob/main/photo/Helm%201.png)
+![screen2](https://github.com/pfccska777/git27/blob/main/photo/Helm%201.1.png)
+![screen3](https://github.com/pfccska777/git27/blob/main/photo/Helm%201.2.png)
+![screen4](https://github.com/pfccska777/git27/blob/main/photo/Helm%201.3.png)
+![screen5](https://github.com/pfccska777/git27/blob/main/photo/Helm%201.4.png)
+![screen6](https://github.com/pfccska777/git27/blob/main/photo/Helm%201.5.png)
+![screen7](https://github.com/pfccska777/git27/blob/main/photo/Helm%201.6.png)
 
 
-## **Задание 3: Настройка RBAC**  
-### **Задача**  
-Создать пользователя с ограниченными правами (только просмотр логов и описания подов).
+### Задание 2. Запустить две версии в разных неймспейсах
 
-![screen10](https://github.com/pfccska777/git27/blob/main/photo/Манифест%20задания%203.png)
-![screen11](https://github.com/pfccska777/git27/blob/main/photo/Манифест%20задания%203.1.png)
-![screen12](https://github.com/pfccska777/git27/blob/main/photo/Задание%203%20часть%201.png)
-![screen13](https://github.com/pfccska777/git27/blob/main/photo/Задание%203%20часть%202.png)
+1. Подготовив чарт, необходимо его проверить. Запуститe несколько копий приложения.
+2. Одну версию в namespace=app1, вторую версию в том же неймспейсе, третью версию в namespace=app2.
+3. Продемонстрируйте результат.
+
+### Решение 2.
+
+![screen8](https://github.com/pfccska777/git27/blob/main/photo/Запуск.png)
+![screen9](https://github.com/pfccska777/git27/blob/main/photo/Создание.png)
+![screen10](https://github.com/pfccska777/git27/blob/main/photo/проверка.png)
+![screen11](https://github.com/pfccska777/git27/blob/main/photo/Работа%201.png)
+![screen12](https://github.com/pfccska777/git27/blob/main/photo/Работа%202.png)
