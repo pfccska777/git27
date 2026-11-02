@@ -1,32 +1,14 @@
-# Домашнее задание к занятию «Helm»
+# Домашнее задание к занятию «Компоненты Kubernetes»
 
-### Задание 1. Подготовить Helm-чарт для приложения
+### Задание. Необходимо определить требуемые ресурсы
+Известно, что проекту нужны база данных, система кеширования, а само приложение состоит из бекенда и фронтенда. Опишите, какие ресурсы нужны, если известно:
 
 1. Необходимо упаковать приложение в чарт для деплоя в разные окружения. 
-2. Каждый компонент приложения деплоится отдельным deployment’ом или statefulset’ом.
-3. В переменных чарта измените образ приложения для изменения версии.
+2. База данных должна быть отказоустойчивой. Потребляет 4 ГБ ОЗУ в работе, 1 ядро. 3 копии. 
+3. Кеш должен быть отказоустойчивый. Потребляет 4 ГБ ОЗУ в работе, 1 ядро. 3 копии. 
+4. Фронтенд обрабатывает внешние запросы быстро, отдавая статику. Потребляет не более 50 МБ ОЗУ на каждый экземпляр, 0.2 ядра. 5 копий. 
+5. Бекенд потребляет 600 МБ ОЗУ и по 1 ядру на копию. 10 копий.
 
-### Решение 1.
+### Решение.
 
-![screen1](https://github.com/pfccska777/git27/blob/main/photo/Helm%201.png)
-![screen2](https://github.com/pfccska777/git27/blob/main/photo/Helm%201.1.png)
-![screen3](https://github.com/pfccska777/git27/blob/main/photo/Helm%201.2.png)
-![screen4](https://github.com/pfccska777/git27/blob/main/photo/Helm%201.3.png)
-![screen5](https://github.com/pfccska777/git27/blob/main/photo/Helm%201.4.png)
-![screen6](https://github.com/pfccska777/git27/blob/main/photo/Helm%201.5.png)
-![screen7](https://github.com/pfccska777/git27/blob/main/photo/Helm%201.6.png)
-
-
-### Задание 2. Запустить две версии в разных неймспейсах
-
-1. Подготовив чарт, необходимо его проверить. Запуститe несколько копий приложения.
-2. Одну версию в namespace=app1, вторую версию в том же неймспейсе, третью версию в namespace=app2.
-3. Продемонстрируйте результат.
-
-### Решение 2.
-
-![screen8](https://github.com/pfccska777/git27/blob/main/photo/Запуск.png)
-![screen9](https://github.com/pfccska777/git27/blob/main/photo/Создание.png)
-![screen10](https://github.com/pfccska777/git27/blob/main/photo/проверка.png)
-![screen11](https://github.com/pfccska777/git27/blob/main/photo/Работа%201.png)
-![screen12](https://github.com/pfccska777/git27/blob/main/photo/Работа%202.png)
+![screen1](https://github.com/pfccska777/git27/blob/main/photo/Таблица.png)
