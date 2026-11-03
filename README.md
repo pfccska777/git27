@@ -1,14 +1,75 @@
-# Домашнее задание к занятию «Компоненты Kubernetes»
+# Домашнее задание к занятию «Установка Kubernetes»
 
-### Задание. Необходимо определить требуемые ресурсы
-Известно, что проекту нужны база данных, система кеширования, а само приложение состоит из бекенда и фронтенда. Опишите, какие ресурсы нужны, если известно:
+### Задание 1. Установить кластер k8s с 1 master node
 
-1. Необходимо упаковать приложение в чарт для деплоя в разные окружения. 
-2. База данных должна быть отказоустойчивой. Потребляет 4 ГБ ОЗУ в работе, 1 ядро. 3 копии. 
-3. Кеш должен быть отказоустойчивый. Потребляет 4 ГБ ОЗУ в работе, 1 ядро. 3 копии. 
-4. Фронтенд обрабатывает внешние запросы быстро, отдавая статику. Потребляет не более 50 МБ ОЗУ на каждый экземпляр, 0.2 ядра. 5 копий. 
-5. Бекенд потребляет 600 МБ ОЗУ и по 1 ядру на копию. 10 копий.
+1. Подготовка работы кластера из 5 нод: 1 мастер и 4 рабочие ноды.
+2. В качестве CRI — containerd.
+3. Запуск etcd производить на мастере.
+4. Способ установки выбрать самостоятельно.
 
-### Решение.
+###  Kubernetes Cluster Setup Task
 
-![screen1](https://github.com/pfccska777/git27/blob/main/photo/Таблица.png)
+### Пример
+
+## Task Description
+**Task 1:** Deploy a Kubernetes (k8s) cluster with 1 Master node.
+
+### Requirements:
+* **Cluster Topology:** 5 nodes in total (1 Master node + 4 Worker nodes).
+* **CRI (Container Runtime Interface):** `containerd`.
+* **etcd Deployment:** Must run on the **Master node**.
+* **Installation Method:** Self-selected (e.g., kubeadm, k3s, or manual deployment).
+
+## Environment
+* **OS:** Debian Linux
+* **Nodes:**
+    | Role | Count |
+    | :--- | :--- |
+    | Master | 1 |
+    | Worker | 4 |
+
+# 1. Создаем директорию проекта
+mkdir k8s-cluster-task && cd k8s-cluster-task
+
+# 2. Инициализируем git
+git init
+
+# 3. Создаем README.md с заданием
+cat <<EOF > README.md
+# Kubernetes Cluster Setup Task
+
+## Task Description
+**Task 1:** Deploy a Kubernetes (k8s) cluster with 1 Master node.
+
+### Requirements:
+* **Cluster Topology:** 5 nodes in total (1 Master node + 4 Worker nodes).
+* **CRI (Container Runtime Interface):** \`containerd\`.
+* **etcd Deployment:** Must run on the **Master node**.
+* **Installation Method:** Self-selected.
+
+## Environment
+* **OS:** Debian Linux
+* **Nodes:**
+    | Role | Count |
+    | :--- | :--- |
+    | Master | 1 |
+    | Worker | 4 |
+EOF
+
+# 4. Добавляем файлы и делаем первый коммит
+git add README.md
+git commit -m "docs: add task description"
+
+# 5. Инструкция по пушу (замените URL на ваш)
+# git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+# git branch -M main
+# git push -u origin main
+
+
+![screen](https://github.com/pfccska777/git27/blob/main/photo/скриншот%201.png)
+![screen1](https://github.com/pfccska777/git27/blob/main/photo/скриншот%202.png)
+![screen2](https://github.com/pfccska777/git27/blob/main/photo/скриншот%203.png)
+![screen3](https://github.com/pfccska777/git27/blob/main/photo/скриншот%204.png)
+![screen4](https://github.com/pfccska777/git27/blob/main/photo/скриншот%205.png)
+![screen5](https://github.com/pfccska777/git27/blob/main/photo/скриншот%206.png)
+![screen6](https://github.com/pfccska777/git27/blob/main/photo/скриншот%207.png)
