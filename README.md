@@ -1,21 +1,26 @@
-# Домашнее задание к занятию «Как работает сеть в K8s»
+# Домашнее задание к занятию «Хранение в K8s»
 
-### Задание 1. Создать сетевую политику или несколько политик для обеспечения доступа
+## Задание 1. Volume: обмен данными между контейнерами в поде
+### Задача
 
-1. Создать deployment'ы приложений frontend, backend и cache и соответсвующие сервисы.
-2. В качестве образа использовать network-multitool.
-3. Разместить поды в namespace App.
-4. Создать политики, чтобы обеспечить доступ frontend -> backend -> cache. Другие виды подключений должны быть запрещены.
-5. Продемонстрировать, что трафик разрешён и запрещён.
+Создать Deployment приложения, состоящего из двух контейнеров, обменивающихся данными.
+
+### Решение 1.
+
+![screen1](https://github.com/pfccska777/git27/blob/main/photo/1%20скриншот.png)
+![screen2](https://github.com/pfccska777/git27/blob/main/photo/2%20скриншот.png)
+![screen3](https://github.com/pfccska777/git27/blob/main/photo/манфик%201.png)
 
 
-![screen1](https://github.com/pfccska777/git27/blob/main/photo/1%20скрин.png)
-![screen2](https://github.com/pfccska777/git27/blob/main/photo/2%20скрин.png)
-![screen3](https://github.com/pfccska777/git27/blob/main/photo/3%20скрин.png)
-![screen4](https://github.com/pfccska777/git27/blob/main/photo/4%20скрин.png)
-![screen5](https://github.com/pfccska777/git27/blob/main/photo/5%20скрин.png)
-![screen6](https://github.com/pfccska777/git27/blob/main/photo/6%20скрин.png)
+### Решение 2.
 
-![screen7](https://github.com/pfccska777/git27/blob/main/photo/плбк1.png)
-![screen8](https://github.com/pfccska777/git27/blob/main/photo/плбк2.png)
-![screen9](https://github.com/pfccska777/git27/blob/main/photo/плбк3.png)
+![screen4](https://github.com/pfccska777/git27/blob/main/photo/3%20скриншот.png)
+![screen5](https://github.com/pfccska777/git27/blob/main/photo/скриншот%204.png)
+![screen6](https://github.com/pfccska777/git27/blob/main/photo/Манфик%202.png)
+
+### Описание реализации доступа к логам
+
+Для организации чтения файла `/var/log/syslog` кластера MicroK8S внутри контейнера применяется следующий подход:
+
+* **Использование `subPath`**: вместо монтирования всей директории `/var/log` с хост-машины, будет монтироваться только целевой файл `syslog`. Это позволяет изолировать конкретный файл и не пробрасывать лишние системные данные в контейнер.
+* **Режим `readOnly`**: монтирование будет выполнено в режиме «только для чтения». Это необходимо для предотвращения конфликтов доступа и защиты целостности системного лога на узле MicroK8S.
