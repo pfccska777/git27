@@ -1,26 +1,35 @@
-# Домашнее задание к занятию «Хранение в K8s»
+# Домашнее задание к занятию Troubleshooting
 
-## Задание 1. Volume: обмен данными между контейнерами в поде
-### Задача
+### Цель задания
 
-Создать Deployment приложения, состоящего из двух контейнеров, обменивающихся данными.
+Устранить неисправности при деплое приложения.
 
-### Решение 1.
+### Чеклист готовности к домашнему заданию
 
-![screen1](https://github.com/pfccska777/git27/blob/main/photo/1%20скриншот.png)
-![screen2](https://github.com/pfccska777/git27/blob/main/photo/2%20скриншот.png)
-![screen3](https://github.com/pfccska777/git27/blob/main/photo/манфик%201.png)
+1. Кластер K8s.
+
+### Задание. При деплое приложение web-consumer не может подключиться к auth-db. Необходимо это исправить
+
+1. Установить приложение по команде:
+```shell
+kubectl apply -f https://raw.githubusercontent.com/netology-code/kuber-homeworks/main/3.5/files/task.yaml
+```
+2. Выявить проблему и описать.
+3. Исправить проблему, описать, что сделано.
+4. Продемонстрировать, что проблема решена.
 
 
-### Решение 2.
+### Решение.
 
-![screen4](https://github.com/pfccska777/git27/blob/main/photo/3%20скриншот.png)
-![screen5](https://github.com/pfccska777/git27/blob/main/photo/скриншот%204.png)
-![screen6](https://github.com/pfccska777/git27/blob/main/photo/Манфик%202.png)
+![screen1](https://github.com/pfccska777/git27/blob/main/photo/манифест%20к%20первой%20части.png)
+![screen2](https://github.com/pfccska777/git27/blob/main/photo/Проблема.png)
+![screen3](https://github.com/pfccska777/git27/blob/main/photo/Продолжение%20проблемы.png)
+![screen4](https://github.com/pfccska777/git27/blob/main/photo/Продолжение%20продолжения.png)
 
-### Описание реализации доступа к логам
+1. Curl понятия не имеет что либо о хосте. Исправить можно прописвыя в каждом контейнере вручную, либо же указывать решение в команде Curl.
 
-Для организации чтения файла `/var/log/syslog` кластера MicroK8S внутри контейнера применяется следующий подход:
+![screen5](https://github.com/pfccska777/git27/blob/main/photo/манифест%20к%20решению%20проблемы.png)
+![screen6](https://github.com/pfccska777/git27/blob/main/photo/Проверка%20отсутствия%20проблемы.png)
+![screen7](https://github.com/pfccska777/git27/blob/main/photo/Проверка%20отсутствия%20проблемы%202.png)
 
-* **Использование `subPath`**: вместо монтирования всей директории `/var/log` с хост-машины, будет монтироваться только целевой файл `syslog`. Это позволяет изолировать конкретный файл и не пробрасывать лишние системные данные в контейнер.
-* **Режим `readOnly`**: монтирование будет выполнено в режиме «только для чтения». Это необходимо для предотвращения конфликтов доступа и защиты целостности системного лога на узле MicroK8S.
+
